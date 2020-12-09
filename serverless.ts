@@ -1,11 +1,13 @@
 import type { Serverless } from 'serverless/aws';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const serverlessConfiguration: Serverless = {
+  app: 'line-tvbot',
+  org: 'nokazn',
   service: {
     name: 'line-tvbot',
-    // app and org for use with dashboard.serverless.com
-    // app: your-app-name,
-    // org: your-org-name,
   },
   frameworkVersion: '>=1.72.0',
   custom: {
@@ -15,9 +17,6 @@ const serverlessConfiguration: Serverless = {
     },
     'serverless-iam-roles-per-function': {
       defaultInjerit: true,
-    },
-    globalTables: {
-      regions: ['us-east-2'],
     },
     prune: {
       automatic: true,
@@ -29,16 +28,15 @@ const serverlessConfiguration: Serverless = {
     'serverless-webpack',
     'serverless-offline',
     'serverless-iam-roles-per-function',
-    'serverless-create-global-dynamodb-table',
     'serverless-prune-plugin',
   ],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
     // eslint-disable-next-line no-template-curly-in-string
-    stage: "${opt:state, 'local'}",
+    stage: "${opt:state, 'dev'}",
     // eslint-disable-next-line no-template-curly-in-string
-    region: "${opt:region, 'us-east-2'}",
+    region: "${opt:region, 'ap-northeast-1'}",
     apiGateway: {
       minimumCompressionSize: 1024,
     },
@@ -70,6 +68,9 @@ const serverlessConfiguration: Serverless = {
         },
       ],
     },
+  },
+  resources: {
+    Resources: [],
   },
 };
 
